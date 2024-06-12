@@ -12,9 +12,13 @@ const postDept = async (req, res, next) => {
 const getDept = async (req, res, next) => {
     try {
         const retorno = await deptService.getDept()
+        if (retorno.status === 204) {
+            return res.status(204).end();
+        }
         res.status(200).json(retorno)
-    } catch (err){
-        res.status(500).send(err.message)
+    } catch (err) {
+        console.error('Error in getDept:', err);
+        res.status(500).send('Internal Server Error');
     }
 }
 
@@ -31,6 +35,30 @@ const deleteDept = async (req, res, next) => {
     }
 };
 
-module.exports.postDept = postDept;
-module.exports.getDept = getDept;
-module.exports.deleteDept = deleteDept;
+const updateDept = async (req, res, next) => {
+    try {
+        const { dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp } = req.body;
+        const updatedDepartment = await deptService.updateDept({ dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp });
+        return res.status(200).json(updatedDepartment);
+    } catch (err) {
+        console.error('Error in updateDept:', err);
+        return res.status(500).send('Internal Server Error');
+    }
+};
+
+const patchDept = async (req, res) => {
+    try {
+        let params = req.body;
+        params.dep_id = req.params.dep_id
+
+        const result = await deptService.patchDept(params);
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error('Error in patchDept:', error);
+        res.status(500).json({ error: 'An error occurred while updating the department.' });
+    }
+};
+
+
+
+module.exports = { postDept, getDept, deleteDept, updateDept, patchDept }

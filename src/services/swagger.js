@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')('pt-BR');
+const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
 
 const doc = {
     info: {
@@ -14,6 +14,6 @@ const doc = {
 };
 
 const outputFile = './src/docs/swagger.yaml';
-const endpointFiles = ['./src/routes/dept.js', './src/routes/user.js'];
+const endpointFiles = ['./src/routes/dept.js', './src/routes/clientes.js', './src/routes/enderecos.js', './src/routes/user.js', './src/routes/agenda.js'];
 
 swaggerAutogen(outputFile, endpointFiles, doc);

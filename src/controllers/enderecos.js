@@ -43,12 +43,25 @@ const deleteEndereco = async (req, res, next) => {
     }
 };
 
-const patchEnderecos = async (req, res) => {
+// const patchEnderecos = async (req, res) => {
+//     const { end_cod } = req.params;
+//     const updateData = req.body;
+
+//     try {
+//         const updatedEndereco = await enderecoService.patchEndereco(end_cod, updateData);
+//         res.status(200).json(updatedEndereco);
+//     } catch (error) {
+//         console.error('Error updating endereco:', error);
+//         res.status(500).json({ error: 'An error occurred while trying to update the endereco.' });
+//     }
+// };
+
+const updateEnderecos = async (req, res) => {
     const { end_cod } = req.params;
     const updateData = req.body;
 
     try {
-        const updatedEndereco = await enderecoService.patchEndereco(end_cod, updateData);
+        const updatedEndereco = await enderecoService.putEndereco(end_cod, updateData);
         res.status(200).json(updatedEndereco);
     } catch (error) {
         console.error('Error updating endereco:', error);
@@ -57,4 +70,4 @@ const patchEnderecos = async (req, res) => {
 };
 
 
-module.exports = { postEnderecos, getEnderecos, getEnderecoByCliente, deleteEndereco, patchEnderecos };
+module.exports = { postEnderecos, getEnderecos, getEnderecoByCliente, deleteEndereco, updateEnderecos };

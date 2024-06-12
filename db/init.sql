@@ -9,7 +9,7 @@ CREATE TABLE users (
 
 CREATE TABLE departamento (
     dep_id SERIAL PRIMARY KEY,
-    dep_nome VARCHAR(20),
+    dep_nome VARCHAR(80),
     -- dep_ico ?
     dep_sigla VARCHAR(5),
     dep_descricao VARCHAR(255),
@@ -144,57 +144,89 @@ FOREIGN KEY (end_cli_cod) REFERENCES clientes(cli_cod);
 
 
 -- Inserindo dados na tabela departamento
-INSERT INTO departamento (dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp)
+INSERT INTO departamento (dep_nome, dep_sigla, dep_descricao, dep_localizacao)
 VALUES
-('Recursos Humanos', 'RH', 'Departamento de Recursos Humanos', 'Edifício Central', 1),
-('Tecnologia da Informação', 'TI', 'Departamento de TI', 'Edifício Norte', 2),
-('Financeiro', 'FIN', 'Departamento Financeiro', 'Edifício Sul', 3);
+('Recursos Humanos', 'RH', 'Departamento de Recursos Humanos', 'Edifício Central');
+INSERT INTO departamento (dep_nome, dep_sigla, dep_descricao, dep_localizacao)
+VALUES
+('Tecnologia da Informação', 'TI', 'Departamento de TI', 'Edifício Norte');
+INSERT INTO departamento (dep_nome, dep_sigla, dep_descricao, dep_localizacao)
+VALUES
+('Financeiro', 'FIN', 'Departamento Financeiro', 'Edifício Sul');
 
 -- Inserindo dados na tabela users
 INSERT INTO users (user_username, user_email, user_dept, user_password, user_salt)
 VALUES
-('jdoe', 'jdoe@example.com', 1, 'hashedpassword1', 'salt1'),
-('asmith', 'asmith@example.com', 2, 'hashedpassword2', 'salt2'),
+('jdoe', 'jdoe@example.com', 1, 'hashedpassword1', 'salt1');
+INSERT INTO users (user_username, user_email, user_dept, user_password, user_salt)
+VALUES
+('asmith', 'asmith@example.com', 2, 'hashedpassword2', 'salt2');
+INSERT INTO users (user_username, user_email, user_dept, user_password, user_salt)
+VALUES
 ('bjones', 'bjones@example.com', 3, 'hashedpassword3', 'salt3');
 
 -- Inserindo dados na tabela clientes
 INSERT INTO clientes (cli_doc, cli_nome, cli_email, cli_telefone, cli_status)
 VALUES
-('12345678901', 'Empresa ABC', 'contato@empresaabc.com', '123456789', 1),
-('98765432100', 'Empresa XYZ', 'contato@empresaxyz.com', '987654321', 1),
+('12345678901', 'Empresa ABC', 'contato@empresaabc.com', '123456789', 1);
+INSERT INTO clientes (cli_doc, cli_nome, cli_email, cli_telefone, cli_status)
+VALUES
+('98765432100', 'Empresa XYZ', 'contato@empresaxyz.com', '987654321', 1);
+INSERT INTO clientes (cli_doc, cli_nome, cli_email, cli_telefone, cli_status)
+VALUES
 ('19283746500', 'Empresa QWE', 'contato@empresaQWE.com', '192837465', 2);
 
 -- Inserindo dados na tabela enderecos
 INSERT INTO enderecos (end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status)
 VALUES
-(1, '01001000', 'Praça da Sé', 'Sé', '100', 'SP', 'Próximo à catedral', '11999999999', 1, 1),
-(2, '20040002', 'Av. Rio Branco', 'Centro', '200', 'RJ', 'Ao lado do Teatro Municipal', '21999999999', 2, 1),
+(1, '01001000', 'Praça da Sé', 'Sé', '100', 'SP', 'Próximo à catedral', '11999999999', 1, 1);
+INSERT INTO enderecos (end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status)
+VALUES
+(2, '20040002', 'Av. Rio Branco', 'Centro', '200', 'RJ', 'Ao lado do Teatro Municipal', '21999999999', 2, 1);
+INSERT INTO enderecos (end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status)
+VALUES
 (3, '30140071', 'Av. Afonso Pena', 'Centro', '300', 'MG', 'Em frente ao Parque Municipal', '31999999999', 1, 2);
 
 -- Inserindo dados na tabela agenda
 INSERT INTO agenda (agenda_tipo_acao, agenda_dept_id, agenda_cli_cod, agenda_criado_em, agenda_alterado_em, agenda_finalizado_em, agenda_criado_por, agenda_fechado_por, agenda_descricao, agenda_status)
 VALUES
-(1, 1, 1, '2024-01-01', '2024-01-02', '2024-01-03', 1, 2, 'Treinamento inicial', 1),
-(2, 2, 2, '2024-01-04', '2024-01-05', '2024-01-06', 2, 3, 'Suporte técnico', 2),
+(1, 1, 1, '2024-01-01', '2024-01-02', '2024-01-03', 1, 2, 'Treinamento inicial', 1);
+INSERT INTO agenda (agenda_tipo_acao, agenda_dept_id, agenda_cli_cod, agenda_criado_em, agenda_alterado_em, agenda_finalizado_em, agenda_criado_por, agenda_fechado_por, agenda_descricao, agenda_status)
+VALUES
+(2, 2, 2, '2024-01-04', '2024-01-05', '2024-01-06', 2, 3, 'Suporte técnico', 2);
+INSERT INTO agenda (agenda_tipo_acao, agenda_dept_id, agenda_cli_cod, agenda_criado_em, agenda_alterado_em, agenda_finalizado_em, agenda_criado_por, agenda_fechado_por, agenda_descricao, agenda_status)
+VALUES
 (3, 3, 3, '2024-01-07', '2024-01-08', '2024-01-09', 3, 1, 'Reunião de planejamento', 1);
 
 -- Inserindo dados na tabela agenda_resp
 INSERT INTO agenda_resp (agenda_responsaveis, agenda_agenda_id)
 VALUES
-(1, 1),
-(2, 2),
+(1, 1);
+INSERT INTO agenda_resp (agenda_responsaveis, agenda_agenda_id)
+VALUES
+(2, 2);
+INSERT INTO agenda_resp (agenda_responsaveis, agenda_agenda_id)
+VALUES
 (3, 3);
 
 -- Inserindo dados na tabela agenda_obser
 INSERT INTO agenda_obser (agenda_observador, agenda_agenda_id)
 VALUES
-(2, 1),
-(3, 2),
+(2, 1);
+INSERT INTO agenda_obser (agenda_observador, agenda_agenda_id)
+VALUES
+(3, 2);
+INSERT INTO agenda_obser (agenda_observador, agenda_agenda_id)
+VALUES
 (1, 3);
 
 -- Inserindo dados na tabela comentario
 INSERT INTO comentario (com_agenda_id, com_user, com_responsavel, com_descricao, com_resultado)
 VALUES
-(1, 1, 2, 'Treinamento concluído com sucesso', 3),
-(2, 2, 3, 'Suporte técnico realizado', 3),
+(1, 1, 2, 'Treinamento concluído com sucesso', 3);
+INSERT INTO comentario (com_agenda_id, com_user, com_responsavel, com_descricao, com_resultado)
+VALUES
+(2, 2, 3, 'Suporte técnico realizado', 3);
+INSERT INTO comentario (com_agenda_id, com_user, com_responsavel, com_descricao, com_resultado)
+VALUES
 (3, 3, 1, 'Reunião reagendada', 2);
