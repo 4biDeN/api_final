@@ -10,7 +10,6 @@ CREATE TABLE users (
 CREATE TABLE departamento (
     dep_id SERIAL PRIMARY KEY,
     dep_nome VARCHAR(80),
-    -- dep_ico ?
     dep_sigla VARCHAR(5),
     dep_descricao VARCHAR(255),
     dep_localizacao VARCHAR(30),
