@@ -42,8 +42,8 @@
                   "example": "E-mail do usuário"
                 },
                 "user_dept": {
-                  "type": "string",
-                  "example": "ID do departamento do usuário"
+                  "type": "number",
+                  "example": 3
                 },
                 "user_password": {
                   "type": "string",

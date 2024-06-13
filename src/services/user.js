@@ -25,7 +25,6 @@ const sql_get = `
     from users `
 
 const getUserById = async (user_id) =>{
-    //const query = sql_get + ` where user_id = $1 ` 
     const query = ` select user_username, user_salt, user_password from users where user_id = $1`
     result = await db.query(query, [user_id])
     if (result.rows.length === 0) {
@@ -54,7 +53,6 @@ const patchPassword = async (params) => {
     const {user_id, user_username, user_password, newpass} = params
     let binds = [user_id];
     const user_data = await getUserById(user_id)
-    console.log(user_data)
     let validatePassword = cript.comparePassword(user_data.user_password, user_data.user_salt, user_password);
     if (validatePassword){
         let sql = sql_patch

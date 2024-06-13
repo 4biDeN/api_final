@@ -13,7 +13,7 @@ module.exports = (app) => {
             schema: {
                 user_username: 'Nome de usuário',
                 user_email: 'E-mail do usuário',
-                user_dept: 'ID do departamento do usuário',
+                user_dept: 3,
                 user_password: 'Senha do usuário'
             }
         }
