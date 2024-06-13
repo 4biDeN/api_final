@@ -1,12 +1,12 @@
 const db = require('../configs/pg');
 
-const postEndereco = async (enderecoData) => {
-    const { end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status } = enderecoData;
-    const sql_insert_endereco = `
+const sql_insert_endereco = `
         INSERT INTO enderecos (end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         RETURNING *`;
-
+        
+const postEndereco = async (enderecoData) => {
+    const { end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status } = enderecoData;
     try {
         const result = await db.query(sql_insert_endereco, [
             end_cli_cod, end_cep, end_logradouro, end_bairro, end_numero, end_uf, end_complemento, end_contato, end_tipo, end_status
@@ -59,82 +59,6 @@ const deleteEndereco = async (params) => {
         return { message: `Endereço deletado com Sucesso`}
     } catch (err) {
         return { err: `Erro ao Deletar Endereço`}
-    }
-}
-
-const patchEndereco = async (end_cod, updateData) => {
-    let fields = '';
-    let binds = [];
-    let countParams = 1;
-
-    if (updateData.end_cli_cod) {
-        fields += ` end_cli_cod = $${countParams} `;
-        binds.push(updateData.end_cli_cod);
-        countParams++;
-    }
-    if (updateData.end_cep) {
-        fields += (fields ? ', ' : '') + ` end_cep = $${countParams} `;
-        binds.push(updateData.end_cep);
-        countParams++;
-    }
-    if (updateData.end_logradouro) {
-        fields += (fields ? ', ' : '') + ` end_logradouro = $${countParams} `;
-        binds.push(updateData.end_logradouro);
-        countParams++;
-    }
-    if (updateData.end_bairro) {
-        fields += (fields ? ', ' : '') + ` end_bairro = $${countParams} `;
-        binds.push(updateData.end_bairro);
-        countParams++;
-    }
-    if (updateData.end_numero) {
-        fields += (fields ? ', ' : '') + ` end_numero = $${countParams} `;
-        binds.push(updateData.end_numero);
-        countParams++;
-    }
-    if (updateData.end_uf) {
-        fields += (fields ? ', ' : '') + ` end_uf = $${countParams} `;
-        binds.push(updateData.end_uf);
-        countParams++;
-    }
-    if (updateData.end_complemento) {
-        fields += (fields ? ', ' : '') + ` end_complemento = $${countParams} `;
-        binds.push(updateData.end_complemento);
-        countParams++;
-    }
-    if (updateData.end_contato) {
-        fields += (fields ? ', ' : '') + ` end_contato = $${countParams} `;
-        binds.push(updateData.end_contato);
-        countParams++;
-    }
-    if (updateData.end_tipo) {
-        fields += (fields ? ', ' : '') + ` end_tipo = $${countParams} `;
-        binds.push(updateData.end_tipo);
-        countParams++;
-    }
-    if (updateData.end_status !== undefined) {
-        fields += (fields ? ', ' : '') + ` end_status = $${countParams} `;
-        binds.push(updateData.end_status);
-        countParams++;
-    }
-
-    if (!fields) {
-        throw new Error('No fields to update');
-    }
-
-    const sql_update = 'UPDATE enderecos SET ';
-    let sql = sql_update + fields + ' WHERE end_cod = $' + countParams + ' RETURNING *';
-    binds.push(end_cod);
-
-    try {
-        const result = await db.query(sql, binds);
-        if (result.rows.length === 0) {
-            throw new Error(`Endereço com ID ${end_cod} não encontrado.`);
-        }
-        return result.rows[0];
-    } catch (err) {
-        console.error('Error in patchEndereco:', err);
-        throw err;
     }
 };
 
@@ -190,5 +114,82 @@ const putEndereco = async (end_cod, updateData) => {
         throw error;
     }
 };
+
+const patchEndereco = async (params) => {
+    let fields = '';
+    let binds = [];
+    let countParams = 1;
+
+    if (params.end_cli_cod !== undefined) {
+        fields += ` end_cli_cod = $${countParams} `;
+        binds.push(params.end_cli_cod);
+        countParams++;
+    }
+    if (params.end_cep !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_cep = $${countParams} `;
+        binds.push(params.end_cep);
+        countParams++;
+    }
+    if (params.end_logradouro !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_logradouro = $${countParams} `;
+        binds.push(params.end_logradouro);
+        countParams++;
+    }
+    if (params.end_bairro !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_bairro = $${countParams} `;
+        binds.push(params.end_bairro);
+        countParams++;
+    }
+    if (params.end_numero !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_numero = $${countParams} `;
+        binds.push(params.end_numero);
+        countParams++;
+    }
+    if (params.end_uf !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_uf = $${countParams} `;
+        binds.push(params.end_uf);
+        countParams++;
+    }
+    if (params.end_complemento !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_complemento = $${countParams} `;
+        binds.push(params.end_complemento);
+        countParams++;
+    }
+    if (params.end_contato !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_contato = $${countParams} `;
+        binds.push(params.end_contato);
+        countParams++;
+    }
+    if (params.end_tipo !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_tipo = $${countParams} `;
+        binds.push(params.end_tipo);
+        countParams++;
+    }
+    if (params.end_status !== undefined) {
+        fields += (fields ? ', ' : '') + ` end_status = $${countParams} `;
+        binds.push(params.end_status);
+        countParams++;
+    }
+
+    if (!fields) {
+        throw new Error('No fields to update');
+    }
+
+    const sql_update = 'UPDATE enderecos SET ';
+    let sql = sql_update + fields + ' WHERE end_cod = $' + countParams + ' RETURNING *';
+    binds.push(params.end_cod);
+
+    try {
+        const result = await db.query(sql, binds);
+        if (result.rows.length === 0) {
+            throw new Error(`Endereço com ID ${params.end_cod} não encontrado.`);
+        }
+        return result.rows[0];
+    } catch (err) {
+        console.error('Error in patchEndereco:', err);
+        throw err;
+    }
+};
+
 
 module.exports = { postEndereco, getEndereco, getByCliente, deleteEndereco, patchEndereco, putEndereco }

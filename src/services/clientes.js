@@ -47,4 +47,91 @@ const deleteCliente = async (cli_cod) => {
     return { message: `Cliente com ID ${cli_cod} foi inativado com sucesso.` };
 };
 
-module.exports = { postClientes, getClientes, getClienteById, deleteCliente };
+const sql_update = `
+    UPDATE clientes
+    SET
+        cli_doc = $1,
+        cli_nome = $2,
+        cli_email = $3,
+        cli_telefone = $4,
+        cli_status = $5
+    WHERE cli_cod = $6
+    RETURNING *;
+`;
+
+const updateCliente = async (params) => {
+    const {cli_cod, cli_doc, cli_nome, cli_email, cli_telefone, cli_status } = params
+
+    try {
+        const result = await db.query(sql_update, [
+            cli_doc,
+            cli_nome,
+            cli_email,
+            cli_telefone,
+            cli_status,
+            cli_cod
+        ]);
+
+        if (result.rows.length === 0) {
+            throw new Error(`Cliente com ID ${cli_cod} não encontrado.`);
+        }
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error updating cliente:', error);
+        throw error;
+    }
+};
+
+const patchCliente = async (params) => {
+    let fields = '';
+    let binds = [];
+    let countParams = 1;
+
+    if (params.cli_doc) {
+        fields += ` cli_doc = $${countParams} `;
+        binds.push(params.cli_doc);
+        countParams++;
+    }
+    if (params.cli_nome) {
+        fields += (fields ? ', ' : '') + ` cli_nome = $${countParams} `;
+        binds.push(params.cli_nome);
+        countParams++;
+    }
+    if (params.cli_email) {
+        fields += (fields ? ', ' : '') + ` cli_email = $${countParams} `;
+        binds.push(params.cli_email);
+        countParams++;
+    }
+    if (params.cli_telefone) {
+        fields += (fields ? ', ' : '') + ` cli_telefone = $${countParams} `;
+        binds.push(params.cli_telefone);
+        countParams++;
+    }
+    if (params.cli_status !== undefined) {
+        fields += (fields ? ', ' : '') + ` cli_status = $${countParams} `;
+        binds.push(params.cli_status);
+        countParams++;
+    }
+
+    if (!fields) {
+        throw new Error('No fields to update');
+    }
+    const sql_patch = 'UPDATE clientes SET ';
+    let sql = sql_patch + fields + ' WHERE cli_cod = $' + countParams + ' RETURNING *';
+    binds.push(params.cli_cod);
+    try {
+        const result = await db.query(sql, binds);
+        if (result.rows.length === 0) {
+            throw new Error(`Cliente com ID ${params.cli_cod} não encontrado.`);
+        }
+        return result.rows[0];
+    } catch (err) {
+        console.error('Error in patchCliente:', err);
+        throw err;
+    }
+};
+
+
+
+module.exports = { postClientes, getClientes, getClienteById, deleteCliente, updateCliente, patchCliente };

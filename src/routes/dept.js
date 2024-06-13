@@ -1,4 +1,5 @@
 const deptController = require('../controllers/dept');
+const express = require('express');
 
 module.exports = (app) => {
     app.get('/dept', deptController.getDept
@@ -25,6 +26,19 @@ module.exports = (app) => {
                 dep_resp: 1
             }
         }
+        #swagger.responses[201] = {
+            description: 'Departamento Criado',
+            schema: {
+                mensagem: 'Departamento criado com sucesso!',
+                id: 1
+            }
+        }  
+        #swagger.responses[500] = {
+            description: 'Erro ao tentar criar o Departamento',
+            schema: {
+                mensagem: 'Erro no servidor!'
+            }
+        }
     */
     );
     app.delete('/dept/:dept_id', deptController.deleteDept
@@ -49,7 +63,8 @@ module.exports = (app) => {
             in: 'path',
             description: 'ID do Departamento',
             required: true,
-            type: 'integer'
+            type: 'integer',
+            example: 1
         }
         #swagger.parameters['updatedDept'] = {
             in: 'body',
@@ -82,13 +97,11 @@ module.exports = (app) => {
             description: 'Campos a serem atualizados no Departamento',
             required: true,
             schema: {
-                example: {
-                    dep_nome: 'Tecnologia da Informação',
-                    dep_sigla:'TI',
-                    dep_descricao: 'Departamento de TI',
-                    dep_localizacao: 'Edifício Norte',
-                    dep_resp: 3
-                }
+                dep_nome: 'Tecnologia da Informação',
+                dep_sigla:'TI',
+                dep_descricao: 'Departamento de TI',
+                dep_localizacao: 'Edifício Norte',
+                dep_resp: 3
             }
         }
         #swagger.responses[200] = {

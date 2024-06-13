@@ -1,16 +1,165 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
     "version": "1.0.0",
     "title": "API FINAL HORUS",
     "description": "Documentação final da API"
   },
-  "servers": [
-    {
-      "url": "http://localhost:3000/"
-    }
+  "host": "localhost:3000",
+  "basePath": "",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Cria um novo Usuário",
+        "description": "Cria um novo usuário no sistema",
+        "parameters": [
+          {
+            "name": "newUser",
+            "in": "body",
+            "description": "Informações do novo Usuário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_username": {
+                  "type": "string",
+                  "example": "Nome de usuário"
+                },
+                "user_email": {
+                  "type": "string",
+                  "example": "E-mail do usuário"
+                },
+                "user_dept": {
+                  "type": "string",
+                  "example": "ID do departamento do usuário"
+                },
+                "user_password": {
+                  "type": "string",
+                  "example": "Senha do usuário"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Lista de Usuários",
+        "description": "Retorna a lista de todos os usuários cadastrados",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Busca Usuário por ID",
+        "description": "Retorna as informações de um usuário específico, com base no ID fornecido",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Atualiza a senha de um Usuário",
+        "description": "Atualiza a senha de um usuário existente no sistema",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do usuário"
+          },
+          {
+            "name": "updatedUser",
+            "in": "body",
+            "description": "Informações atualizadas do Usuário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_username": {
+                  "type": "string",
+                  "example": "Nome de usuário"
+                },
+                "user_password": {
+                  "type": "string",
+                  "example": "Senha atual do usuário"
+                },
+                "newpass": {
+                  "type": "string",
+                  "example": "Nova senha do usuário"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
     "/dept": {
       "get": {
         "tags": [
@@ -23,10 +172,10 @@
             "description": "OK"
           },
           "204": {
-            "description": "No Content"
+            "description": "Nenhum Conteúdo"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       },
@@ -71,10 +220,38 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Departamento Criado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Departamento criado com sucesso!"
+                },
+                "id": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro ao tentar criar o Departamento",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -91,9 +268,7 @@
             "name": "dept_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "type": "integer",
             "description": "ID do Departamento"
           }
         ],
@@ -102,10 +277,10 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Solicitação Inválida"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       }
@@ -122,10 +297,9 @@
             "name": "dep_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID do Departamento"
+            "type": "integer",
+            "description": "ID do Departamento",
+            "example": 1
           },
           {
             "name": "updatedDept",
@@ -164,36 +338,7 @@
             "description": "OK"
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dep_id": {
-                    "example": "any"
-                  },
-                  "dep_nome": {
-                    "example": "any"
-                  },
-                  "dep_sigla": {
-                    "example": "any"
-                  },
-                  "dep_descricao": {
-                    "example": "any"
-                  },
-                  "dep_localizacao": {
-                    "example": "any"
-                  },
-                  "dep_resp": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
+            "description": "Erro Interno do Servidor"
           }
         }
       },
@@ -208,9 +353,7 @@
             "name": "dep_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "type": "integer",
             "description": "ID do Departamento"
           },
           {
@@ -221,30 +364,25 @@
             "schema": {
               "type": "object",
               "properties": {
-                "example": {
-                  "type": "object",
-                  "properties": {
-                    "dep_nome": {
-                      "type": "string",
-                      "example": "Tecnologia da Informação"
-                    },
-                    "dep_sigla": {
-                      "type": "string",
-                      "example": "TI"
-                    },
-                    "dep_descricao": {
-                      "type": "string",
-                      "example": "Departamento de TI"
-                    },
-                    "dep_localizacao": {
-                      "type": "string",
-                      "example": "Edifício Norte"
-                    },
-                    "dep_resp": {
-                      "type": "number",
-                      "example": 3
-                    }
-                  }
+                "dep_nome": {
+                  "type": "string",
+                  "example": "Tecnologia da Informação"
+                },
+                "dep_sigla": {
+                  "type": "string",
+                  "example": "TI"
+                },
+                "dep_descricao": {
+                  "type": "string",
+                  "example": "Departamento de TI"
+                },
+                "dep_localizacao": {
+                  "type": "string",
+                  "example": "Edifício Norte"
+                },
+                "dep_resp": {
+                  "type": "number",
+                  "example": 3
                 }
               }
             }
@@ -296,20 +434,6 @@
               }
             }
           }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dep_id": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
         }
       }
     },
@@ -325,7 +449,7 @@
             "description": "OK"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       },
@@ -344,79 +468,25 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
+                "cli_doc": {
                   "type": "string",
-                  "example": "object"
+                  "example": "12345678900"
                 },
-                "properties": {
-                  "type": "object",
-                  "properties": {
-                    "cli_doc": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "12345678900"
-                        }
-                      }
-                    },
-                    "cli_nome": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "João da Silva"
-                        }
-                      }
-                    },
-                    "cli_email": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "joao.silva@example.com"
-                        }
-                      }
-                    },
-                    "cli_telefone": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "(11) 98765-4321"
-                        }
-                      }
-                    },
-                    "cli_status": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "ativo"
-                        }
-                      }
-                    }
-                  }
+                "cli_nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "cli_email": {
+                  "type": "string",
+                  "example": "joao.silva@example.com"
+                },
+                "cli_telefone": {
+                  "type": "string",
+                  "example": "(11) 98765-4321"
+                },
+                "cli_status": {
+                  "type": "number",
+                  "example": 1
                 }
               }
             }
@@ -424,10 +494,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       }
@@ -444,9 +514,7 @@
             "name": "cli_cod",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "type": "integer",
             "description": "ID do Cliente"
           }
         ],
@@ -455,7 +523,7 @@
             "description": "OK"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Não Encontrado"
           }
         }
       },
@@ -470,9 +538,7 @@
             "name": "cli_cod",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "type": "integer",
             "description": "ID do Cliente"
           }
         ],
@@ -481,7 +547,185 @@
             "description": "OK"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Não Encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualiza um Cliente pelo ID",
+        "description": "Atualiza todas as informações de um Cliente existente no sistema",
+        "parameters": [
+          {
+            "name": "cli_cod",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Cliente"
+          },
+          {
+            "name": "updateCliente",
+            "in": "body",
+            "description": "Informações atualizadas do Cliente",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cli_doc": {
+                  "type": "string",
+                  "example": "12345678900"
+                },
+                "cli_nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "cli_email": {
+                  "type": "string",
+                  "example": "joao.silva@example.com"
+                },
+                "cli_telefone": {
+                  "type": "string",
+                  "example": "(11) 98765-4321"
+                },
+                "cli_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cli_doc": {
+                  "type": "string",
+                  "example": "12345678900"
+                },
+                "cli_nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "cli_email": {
+                  "type": "string",
+                  "example": "joao.silva@example.com"
+                },
+                "cli_telefone": {
+                  "type": "string",
+                  "example": "(11) 98765-4321"
+                },
+                "cli_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar cliente"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualiza um Cliente pelo ID",
+        "description": "Atualiza as informações de um Cliente existente no sistema",
+        "parameters": [
+          {
+            "name": "cli_cod",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Cliente"
+          },
+          {
+            "name": "updateCliente",
+            "in": "body",
+            "description": "Informações atualizadas do Cliente",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cli_doc": {
+                  "type": "string",
+                  "example": "12345678900"
+                },
+                "cli_nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "cli_email": {
+                  "type": "string",
+                  "example": "joao.silva@example.com"
+                },
+                "cli_telefone": {
+                  "type": "string",
+                  "example": "(11) 98765-4321"
+                },
+                "cli_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cli_doc": {
+                  "type": "string",
+                  "example": "12345678900"
+                },
+                "cli_nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "cli_email": {
+                  "type": "string",
+                  "example": "joao.silva@example.com"
+                },
+                "cli_telefone": {
+                  "type": "string",
+                  "example": "(11) 98765-4321"
+                },
+                "cli_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar cliente"
           }
         }
       }
@@ -495,10 +739,74 @@
         "description": "Consulta lista de todos os Endereços cadastrados",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de enderços",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "enderecos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "end_cod": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_cli_cod": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_cep": {
+                        "type": "string",
+                        "example": "01001000"
+                      },
+                      "end_logradouro": {
+                        "type": "string",
+                        "example": "Praça da Sé"
+                      },
+                      "end_bairro": {
+                        "type": "string",
+                        "example": "Sé"
+                      },
+                      "end_numero": {
+                        "type": "string",
+                        "example": "100"
+                      },
+                      "end_uf": {
+                        "type": "string",
+                        "example": "SP"
+                      },
+                      "end_complemento": {
+                        "type": "string",
+                        "example": "Próximo à catedral"
+                      },
+                      "end_contato": {
+                        "type": "string",
+                        "example": "11999999999"
+                      },
+                      "end_tipo": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_status": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       },
@@ -517,6 +825,263 @@
             "schema": {
               "type": "object",
               "properties": {
+                "end_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "end_cep": {
+                  "type": "string",
+                  "example": "01000000"
+                },
+                "end_logradouro": {
+                  "type": "string",
+                  "example": "Rua das Flores"
+                },
+                "end_bairro": {
+                  "type": "string",
+                  "example": "Centro"
+                },
+                "end_numero": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "end_uf": {
+                  "type": "string",
+                  "example": "SP"
+                },
+                "end_complemento": {
+                  "type": "string",
+                  "example": "Apto 101"
+                },
+                "end_contato": {
+                  "type": "number",
+                  "example": 2355
+                },
+                "end_tipo": {
+                  "type": "number",
+                  "example": 1
+                },
+                "end_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Endereço Criado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "end_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "end_cep": {
+                  "type": "string",
+                  "example": "01000000"
+                },
+                "end_logradouro": {
+                  "type": "string",
+                  "example": "Rua das Flores"
+                },
+                "end_bairro": {
+                  "type": "string",
+                  "example": "Centro"
+                },
+                "end_numero": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "end_uf": {
+                  "type": "string",
+                  "example": "SP"
+                },
+                "end_complemento": {
+                  "type": "string",
+                  "example": "Apto 101"
+                },
+                "end_contato": {
+                  "type": "number",
+                  "example": 2355
+                },
+                "end_tipo": {
+                  "type": "number",
+                  "example": 1
+                },
+                "end_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro ao tentar criar o Endereço",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/endereco/{end_cli_cod}": {
+      "get": {
+        "tags": [
+          "Endereços"
+        ],
+        "summary": "Consulta Endereço por Código do Cliente",
+        "description": "Consulta um Endereço pelo Código do Cliente",
+        "parameters": [
+          {
+            "name": "end_cli_cod",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Código do Cliente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de enderços",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "enderecos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "end_cod": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_cli_cod": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_cep": {
+                        "type": "string",
+                        "example": "01001000"
+                      },
+                      "end_logradouro": {
+                        "type": "string",
+                        "example": "Praça da Sé"
+                      },
+                      "end_bairro": {
+                        "type": "string",
+                        "example": "Sé"
+                      },
+                      "end_numero": {
+                        "type": "string",
+                        "example": "100"
+                      },
+                      "end_uf": {
+                        "type": "string",
+                        "example": "SP"
+                      },
+                      "end_complemento": {
+                        "type": "string",
+                        "example": "Próximo à catedral"
+                      },
+                      "end_contato": {
+                        "type": "string",
+                        "example": "11999999999"
+                      },
+                      "end_tipo": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "end_status": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          }
+        }
+      }
+    },
+    "/endereco/{end_cod}": {
+      "delete": {
+        "tags": [
+          "Endereços"
+        ],
+        "summary": "Deleta um Endereço",
+        "description": "Deleta um Endereço baseado no Código fornecido",
+        "parameters": [
+          {
+            "name": "end_cod",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Código do Endereço"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Endereços"
+        ],
+        "summary": "Atualiza um Endereço",
+        "description": "Atualiza um Endereço baseado no Código fornecido",
+        "parameters": [
+          {
+            "name": "end_cod",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Código do Endereço"
+          },
+          {
+            "name": "updatedEndereco",
+            "in": "body",
+            "description": "Informações atualizadas do Endereço",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
                 "type": {
                   "type": "string",
                   "example": "object"
@@ -524,19 +1089,6 @@
                 "properties": {
                   "type": "object",
                   "properties": {
-                    "end_cli_cod": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "integer"
-                        },
-                        "example": {
-                          "type": "number",
-                          "example": 1
-                        }
-                      }
-                    },
                     "end_logradouro": {
                       "type": "object",
                       "properties": {
@@ -635,73 +1187,11 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/endereco/{end_cli_cod}": {
-      "get": {
-        "tags": [
-          "Endereços"
-        ],
-        "summary": "Consulta Endereço por Código do Cliente",
-        "description": "Consulta um Endereço pelo Código do Cliente",
-        "parameters": [
-          {
-            "name": "end_cli_cod",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Código do Cliente"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/endereco/{end_cod}": {
-      "delete": {
-        "tags": [
-          "Endereços"
-        ],
-        "summary": "Deleta um Endereço",
-        "description": "Deleta um Endereço baseado no Código fornecido",
-        "parameters": [
-          {
-            "name": "end_cod",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Código do Endereço"
-          }
-        ],
-        "responses": {
           "200": {
             "description": "OK"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       }
@@ -718,9 +1208,7 @@
             "name": "end_cod",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "type": "integer",
             "description": "Código do Endereço"
           },
           {
@@ -780,45 +1268,391 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Solicitação Inválida"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
           }
         }
       }
     },
-    "/users": {
-      "post": {
+    "/agenda/{agenda_id}": {
+      "get": {
         "tags": [
-          "Usuários"
+          "Agenda"
         ],
-        "summary": "Cria um novo Usuário",
-        "description": "Cria um novo usuário no sistema",
+        "summary": "Consulta uma Agenda específica",
+        "description": "Consulta uma agenda específica pelo ID",
         "parameters": [
           {
-            "name": "newUser",
+            "name": "agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda não encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Agenda não encontrada"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao tentar buscar a Agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Deleta uma agenda",
+        "description": "Deleta uma agenda existente pelo ID",
+        "parameters": [
+          {
+            "name": "agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agenda deletada com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Agenda deletada com sucesso"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda não encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Agenda não encontrada"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao deletar a agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Atualiza parcialmente uma agenda",
+        "description": "Atualiza parcialmente uma agenda existente com os dados fornecidos",
+        "parameters": [
+          {
+            "name": "agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          },
+          {
+            "name": "agenda",
             "in": "body",
-            "description": "Informações do novo Usuário",
+            "description": "Dados da agenda a serem atualizados",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "user_username": {
-                  "type": "string",
-                  "example": "Nome de usuário"
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
                 },
-                "user_email": {
-                  "type": "string",
-                  "example": "E-mail do usuário"
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
                 },
-                "user_dept": {
-                  "type": "string",
-                  "example": "ID do departamento do usuário"
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
                 },
-                "user_password": {
+                "agenda_criado_em": {
                   "type": "string",
-                  "example": "Senha do usuário"
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agenda atualizada com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda não encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Agenda não encontrada"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar a agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda": {
+      "post": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Cadastra uma nova Agenda",
+        "description": "Cadastra uma nova Agenda no sistema",
+        "parameters": [
+          {
+            "name": "newAgenda",
+            "in": "body",
+            "description": "Informações da nova Agenda",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
                 }
               }
             }
@@ -826,45 +1660,670 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Agenda Criada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Usuários"
-        ],
-        "summary": "Lista de Usuários",
-        "description": "Retorna a lista de todos os usuários cadastrados",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Erro ao tentar criar a Agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
-    "/users/{user_id}": {
+    "/agenda/cliente/{cliente_id}": {
       "get": {
         "tags": [
-          "Usuários"
+          "Agenda"
         ],
-        "summary": "Busca Usuário por ID",
-        "description": "Retorna as informações de um usuário específico, com base no ID fornecido",
+        "summary": "Consulta agendas por ID do Cliente",
+        "description": "Consulta todas as agendas associadas a um cliente específico pelo ID do Cliente",
         "parameters": [
           {
-            "name": "user_id",
+            "name": "cliente_id",
             "in": "path",
             "required": true,
+            "type": "integer",
+            "description": "ID do Cliente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de agendas do cliente",
             "schema": {
-              "type": "string"
-            },
-            "description": "ID do usuário"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agenda_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_tipo_acao": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_dept_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_cli_cod": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_criado_em": {
+                    "type": "string",
+                    "example": "2024-06-13"
+                  },
+                  "agenda_alterado_em": {
+                    "type": "string",
+                    "example": "2024-06-14"
+                  },
+                  "agenda_finalizado_em": {
+                    "type": "string",
+                    "example": "2024-06-15"
+                  },
+                  "agenda_criado_por": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_fechado_por": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "agenda_descricao": {
+                    "type": "string",
+                    "example": "Descrição da agenda"
+                  },
+                  "agenda_status": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhuma agenda encontrada para o cliente especificado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Nenhuma agenda encontrada para o cliente especificado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao tentar buscar as agendas do cliente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda/departamento/{dept_id}": {
+      "get": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Consulta agendas por ID do Departamento",
+        "description": "Consulta todas as agendas associadas a um departamento específico pelo ID do Departamento",
+        "parameters": [
+          {
+            "name": "dept_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Departamento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de agendas do departamento",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agenda_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_tipo_acao": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_dept_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_cli_cod": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_criado_em": {
+                    "type": "string",
+                    "example": "2024-06-13"
+                  },
+                  "agenda_alterado_em": {
+                    "type": "string",
+                    "example": "2024-06-14"
+                  },
+                  "agenda_finalizado_em": {
+                    "type": "string",
+                    "example": "2024-06-15"
+                  },
+                  "agenda_criado_por": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_fechado_por": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "agenda_descricao": {
+                    "type": "string",
+                    "example": "Descrição da agenda"
+                  },
+                  "agenda_status": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhuma agenda encontrada para o departamento especificado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Nenhuma agenda encontrada para o departamento especificado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao tentar buscar as agendas do departamento",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda/tipo/{tipo_id}": {
+      "get": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Consulta agendas por ID do Tipo",
+        "description": "Consulta todas as agendas associadas a um tipo de ação específico pelo ID do Tipo",
+        "parameters": [
+          {
+            "name": "tipo_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Tipo de Ação"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de agendas do tipo de ação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agenda_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_tipo_acao": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_dept_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_cli_cod": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_criado_em": {
+                    "type": "string",
+                    "example": "2024-06-13"
+                  },
+                  "agenda_alterado_em": {
+                    "type": "string",
+                    "example": "2024-06-14"
+                  },
+                  "agenda_finalizado_em": {
+                    "type": "string",
+                    "example": "2024-06-15"
+                  },
+                  "agenda_criado_por": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "agenda_fechado_por": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "agenda_descricao": {
+                    "type": "string",
+                    "example": "Descrição da agenda"
+                  },
+                  "agenda_status": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhuma agenda encontrada para o tipo especificado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Nenhuma agenda encontrada para o tipo especificado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao tentar buscar as agendas do tipo",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda/{id}": {
+      "put": {
+        "tags": [
+          "Agenda"
+        ],
+        "summary": "Atualiza uma agenda",
+        "description": "Atualiza uma agenda existente com os dados fornecidos",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          },
+          {
+            "name": "agenda",
+            "in": "body",
+            "description": "Dados da agenda a serem atualizados",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agenda atualizada com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_tipo_acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_dept_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_cli_cod": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_criado_em": {
+                  "type": "string",
+                  "example": "2024-06-13"
+                },
+                "agenda_alterado_em": {
+                  "type": "string",
+                  "example": "2024-06-14"
+                },
+                "agenda_finalizado_em": {
+                  "type": "string",
+                  "example": "2024-06-15"
+                },
+                "agenda_criado_por": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_fechado_por": {
+                  "type": "number",
+                  "example": 2
+                },
+                "agenda_descricao": {
+                  "type": "string",
+                  "example": "Descrição da agenda"
+                },
+                "agenda_status": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda não encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Agenda não encontrada"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar a agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda_resp/": {
+      "get": {
+        "tags": [
+          "Responsáveis"
+        ],
+        "summary": "Consulta Lista de Responsáveis de Agenda",
+        "description": "Consulta lista de Responsáveis de Agenda, todos cadastrados",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/agenda_resp": {
+      "post": {
+        "tags": [
+          "Responsáveis"
+        ],
+        "summary": "Cadastra um novo Responsável de Agenda",
+        "description": "Cadastra um novo Responsável de Agenda no sistema",
+        "parameters": [
+          {
+            "name": "newAgendaResp",
+            "in": "body",
+            "description": "Informações do novo Responsável de Agenda",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_responsaveis": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Responsável de Agenda Criado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Responsável de Agenda criado com sucesso!"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "agenda_responsaveis": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "agenda_agenda_id": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao tentar criar o Responsável de Agenda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agenda_resp/{agenda_responsaveis}/{agenda_agenda_id}": {
+      "delete": {
+        "tags": [
+          "Responsáveis"
+        ],
+        "summary": "Deleta um Responsável de Agenda",
+        "description": "Deleta um Responsável de Agenda baseado nos IDs fornecidos",
+        "parameters": [
+          {
+            "name": "agenda_responsaveis",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Responsável"
+          },
+          {
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
           }
         ],
         "responses": {
@@ -872,51 +2331,184 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
+            "description": "Solicitação Inválida"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Responsáveis"
+        ],
+        "summary": "Atualiza um Responsável de Agenda",
+        "description": "Atualiza as informações de um Responsável de Agenda existente",
+        "parameters": [
+          {
+            "name": "agenda_responsaveis",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Responsável",
+            "example": 1
+          },
+          {
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda",
+            "example": 1
+          },
+          {
+            "name": "updatedAgendaResp",
+            "in": "body",
+            "description": "Informações atualizadas do Responsável de Agenda",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_responsaveis": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
           }
         }
       },
       "patch": {
         "tags": [
-          "Usuários"
+          "Responsáveis"
         ],
-        "summary": "Atualiza a senha de um Usuário",
-        "description": "Atualiza a senha de um usuário existente no sistema",
+        "summary": "Atualiza parcialmente um Responsável de Agenda",
+        "description": "Atualiza parcialmente as informações de um Responsável de Agenda existente",
         "parameters": [
           {
-            "name": "user_id",
+            "name": "agenda_responsaveis",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID do usuário"
+            "type": "integer",
+            "description": "ID do Responsável"
           },
           {
-            "name": "updatedUser",
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          },
+          {
+            "name": "updatedFields",
             "in": "body",
-            "description": "Informações atualizadas do Usuário",
+            "description": "Campos a serem atualizados no Responsável de Agenda",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "user_username": {
-                  "type": "string",
-                  "example": "Nome de usuário"
+                "agenda_responsaveis": {
+                  "type": "number",
+                  "example": 1
                 },
-                "user_password": {
-                  "type": "string",
-                  "example": "Senha atual do usuário"
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responsável de Agenda atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "agenda_responsaveis": {
+                      "type": "integer"
+                    },
+                    "agenda_agenda_id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar o responsável de agenda",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/observadores": {
+      "get": {
+        "tags": [
+          "Observadores"
+        ],
+        "summary": "Consulta Lista de Observadores",
+        "description": "Consulta lista de Observadores, todos cadastrados",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Observadores"
+        ],
+        "summary": "Cadastra um novo Observador",
+        "description": "Cadastra um novo Observador no sistema",
+        "parameters": [
+          {
+            "name": "newObservador",
+            "in": "body",
+            "description": "Informações do novo Observador",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_observador": {
+                  "type": "number",
+                  "example": 1
                 },
-                "newpass": {
-                  "type": "string",
-                  "example": "Nova senha do usuário"
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
                 }
               }
             }
@@ -924,27 +2516,476 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
-          },
-          "404": {
-            "description": "Not Found"
+            "description": "Observador Criado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Observador criado com sucesso!"
+                },
+                "agenda_observador": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro ao tentar criar o Observador",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro no servidor!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user_id": {
-                    "example": "any"
+        }
+      }
+    },
+    "/observadores/{agenda_observador}/{agenda_agenda_id}": {
+      "delete": {
+        "tags": [
+          "Observadores"
+        ],
+        "summary": "Deleta um Observador",
+        "description": "Deleta um Observador baseado nos IDs fornecidos",
+        "parameters": [
+          {
+            "name": "agenda_observador",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Observador"
+          },
+          {
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Observadores"
+        ],
+        "summary": "Atualiza um Observador",
+        "description": "Atualiza as informações de um Observador existente",
+        "parameters": [
+          {
+            "name": "agenda_observador",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Observador",
+            "example": 1
+          },
+          {
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda",
+            "example": 1
+          },
+          {
+            "name": "updatedObservador",
+            "in": "body",
+            "description": "Informações atualizadas do Observador",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_observador": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Observadores"
+        ],
+        "summary": "Atualiza parcialmente um Observador",
+        "description": "Atualiza parcialmente as informações de um Observador existente",
+        "parameters": [
+          {
+            "name": "agenda_observador",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Observador"
+          },
+          {
+            "name": "agenda_agenda_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da Agenda"
+          },
+          {
+            "name": "updatedFields",
+            "in": "body",
+            "description": "Campos a serem atualizados no Observador",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agenda_observador": {
+                  "type": "number",
+                  "example": 1
+                },
+                "agenda_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Observador atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "agenda_observador": {
+                      "type": "integer"
+                    },
+                    "agenda_agenda_id": {
+                      "type": "integer"
+                    }
                   }
                 }
               }
             }
+          },
+          "500": {
+            "description": "Erro ao atualizar o observador",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comentarios": {
+      "get": {
+        "tags": [
+          "Comentários"
+        ],
+        "summary": "Consulta Lista de Comentários",
+        "description": "Consulta lista de todos os Comentários",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comentários"
+        ],
+        "summary": "Cadastra um novo Comentário",
+        "description": "Cadastra um novo Comentário no sistema",
+        "parameters": [
+          {
+            "name": "newComentario",
+            "in": "body",
+            "description": "Informações do novo Comentário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "com_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_user": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_responsavel": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_descricao": {
+                  "type": "string",
+                  "example": "descrição do comentário"
+                },
+                "com_resultado": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/comentarios/{com_id}": {
+      "delete": {
+        "tags": [
+          "Comentários"
+        ],
+        "summary": "Deleta um Comentário",
+        "description": "Deleta um Comentário baseado no ID fornecido",
+        "parameters": [
+          {
+            "name": "com_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Comentário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comentários"
+        ],
+        "summary": "Atualiza um Comentário pelo ID",
+        "description": "Atualiza todas as informações de um Comentário existente no sistema",
+        "parameters": [
+          {
+            "name": "com_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Comentário"
+          },
+          {
+            "name": "updateComentario",
+            "in": "body",
+            "description": "Informações atualizadas do Comentário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "com_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_user": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_responsavel": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_descricao": {
+                  "type": "string",
+                  "example": "descrição do comentário"
+                },
+                "com_resultado": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentário atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "com_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_user": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_responsavel": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_descricao": {
+                  "type": "string",
+                  "example": "descrição do comentário"
+                },
+                "com_resultado": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "404": {
+            "description": "Comentário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar comentário"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Comentários"
+        ],
+        "summary": "Atualiza um Comentário pelo ID",
+        "description": "Atualiza as informações de um Comentário existente no sistema",
+        "parameters": [
+          {
+            "name": "com_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do Comentário"
+          },
+          {
+            "name": "updateComentario",
+            "in": "body",
+            "description": "Informações atualizadas do Comentário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "com_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_user": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_responsavel": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_descricao": {
+                  "type": "string",
+                  "example": "descrição do comentário"
+                },
+                "com_resultado": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentário atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "com_agenda_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_user": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_responsavel": {
+                  "type": "number",
+                  "example": 1
+                },
+                "com_descricao": {
+                  "type": "string",
+                  "example": "descrição do comentário"
+                },
+                "com_resultado": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "404": {
+            "description": "Comentário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar comentário"
           }
         }
       }

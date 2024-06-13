@@ -19,29 +19,11 @@ module.exports = (app) => {
             description: 'Informações do novo Cliente',
             required: true,
             schema: {
-                type: 'object',
-                properties: {
-                    cli_doc: {
-                        type: 'string',
-                        example: '12345678900'
-                    },
-                    cli_nome: {
-                        type: 'string',
-                        example: 'João da Silva'
-                    },
-                    cli_email: {
-                        type: 'string',
-                        example: 'joao.silva@example.com'
-                    },
-                    cli_telefone: {
-                        type: 'string',
-                        example: '(11) 98765-4321'
-                    },
-                    cli_status: {
-                        type: 'string',
-                        example: 'ativo'
-                    }
-                }
+                    cli_doc: '12345678900',
+                    cli_nome: 'João da Silva',
+                    cli_email: 'joao.silva@example.com',
+                    cli_telefone: '(11) 98765-4321',
+                    cli_status: 1
             }
         }
     */
@@ -75,4 +57,96 @@ module.exports = (app) => {
     */
     
     );
+
+
+    app.put('/clientes/:cli_cod', clientesController.updateCliente
+    /**
+        #swagger.tags = ["Clientes"]
+        #swagger.summary = 'Atualiza um Cliente pelo ID'
+        #swagger.description = 'Atualiza todas as informações de um Cliente existente no sistema'
+        #swagger.parameters['cli_cod'] = {
+            in: 'path',
+            description: 'ID do Cliente',
+            required: true,
+            type: 'integer'
+        }
+        #swagger.parameters['updateCliente'] = {
+            in: 'body',
+            description: 'Informações atualizadas do Cliente',
+            required: true,
+            schema: {
+                    cli_doc: '12345678900',
+                    cli_nome: 'João da Silva',
+                    cli_email: 'joao.silva@example.com',
+                    cli_telefone: '(11) 98765-4321',
+                    cli_status: 1
+            }
+        }
+        #swagger.responses[200] = {
+            description: 'Cliente atualizado com sucesso',
+            schema: {
+                    cli_doc: '12345678900',
+                    cli_nome: 'João da Silva',
+                    cli_email: 'joao.silva@example.com',
+                    cli_telefone: '(11) 98765-4321',
+                    cli_status: 1
+            }
+        }
+        #swagger.responses[400] = {
+            description: 'Dados inválidos'
+        }
+        #swagger.responses[404] = {
+            description: 'Cliente não encontrado'
+        }
+        #swagger.responses[500] = {
+            description: 'Erro ao atualizar cliente'
+        }
+    */
+    );
+
+    app.patch('/clientes/:cli_cod', clientesController.patchCliente
+    /**
+        #swagger.tags = ["Clientes"]
+        #swagger.summary = 'Atualiza um Cliente pelo ID'
+        #swagger.description = 'Atualiza as informações de um Cliente existente no sistema'
+        #swagger.parameters['cli_cod'] = {
+            in: 'path',
+            description: 'ID do Cliente',
+            required: true,
+            type: 'integer'
+        }
+        #swagger.parameters['updateCliente'] = {
+            in: 'body',
+            description: 'Informações atualizadas do Cliente',
+            required: true,
+            schema: {
+                    cli_doc: '12345678900',
+                    cli_nome: 'João da Silva',
+                    cli_email: 'joao.silva@example.com',
+                    cli_telefone: '(11) 98765-4321',
+                    cli_status: 1
+            }
+        }
+        #swagger.responses[200] = {
+            description: 'Cliente atualizado com sucesso',
+            schema: {
+                    cli_doc: '12345678900',
+                    cli_nome: 'João da Silva',
+                    cli_email: 'joao.silva@example.com',
+                    cli_telefone: '(11) 98765-4321',
+                    cli_status: 1
+            }
+        }
+        #swagger.responses[400] = {
+            description: 'Dados inválidos'
+        }
+        #swagger.responses[404] = {
+            description: 'Cliente não encontrado'
+        }
+        #swagger.responses[500] = {
+            description: 'Erro ao atualizar cliente'
+        }
+    */
+    );
+
 }

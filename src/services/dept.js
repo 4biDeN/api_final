@@ -2,12 +2,17 @@ const db = require('../configs/pg')
 
 const sql_insert = 
 ` insert into departamento (dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp)
-    values ($1, $2, $3, $4, $5) `
+    values ($1, $2, $3, $4, $5) RETURNING dep_id `
 
 const newDept = async(params) => {
-    const {dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp} = params
-    await db.query(sql_insert, [dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp])
-}
+    const { dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp } = params
+    try {
+        const result = await db.query(sql_insert, [dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp]);
+        return { message: 'Departamento Criado com Sucesso', id: result.rows[0].dep_id };
+    } catch (err) {
+        throw { status: 500, message: 'Erro ao tentar criar Departamento'};
+    }
+};
 
 const sql_get = 
     ` select dep_id,
@@ -49,7 +54,6 @@ const deleteDept = async (params) => {
             return { message: 'Department deleted successfully.' };
         }
     } catch (error) {
-        console.error('Error deleting department:', error);
         return { error: 'An error occurred while trying to delete the department.' };
     }
 };
@@ -65,8 +69,9 @@ const sql_update = `
     RETURNING dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp
 `;
 
-const updateDept = async ({ dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp }) => {
+const updateDept = async (params) => {
     try {
+        const {dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp} = params
         const result = await db.query(sql_update, [dep_id, dep_nome, dep_sigla, dep_descricao, dep_localizacao, dep_resp]);
         if (result.rows.length === 0) {
             throw new Error(`Departamento com ID ${dep_id} não encontrado.`);

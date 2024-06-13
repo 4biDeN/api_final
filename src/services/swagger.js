@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
+const swaggerAutogen = require('swagger-autogen')('pt-BR');
 
 const doc = {
     info: {
@@ -7,13 +7,23 @@ const doc = {
         description: "Documentação final da API"
     },
     host: 'localhost:3000',
-    basePath: '/',
+    basePath: '',
     schemes: ['http'],
     consumes: ['application/json'],
-    produces: ['application/json'],
+    produces: ['application/json']
 };
 
 const outputFile = './src/docs/swagger.yaml';
-const endpointFiles = ['./src/routes/dept.js', './src/routes/clientes.js', './src/routes/enderecos.js', './src/routes/user.js', './src/routes/agenda.js'];
+
+const endpointFiles = [
+    './src/routes/user.js',
+    './src/routes/dept.js',
+    './src/routes/clientes.js', 
+    './src/routes/enderecos.js',
+    './src/routes/agenda.js',
+    './src/routes/responsaveis.js',
+    './src/routes/observadores.js',
+    './src/routes/comentarios.js'
+];
 
 swaggerAutogen(outputFile, endpointFiles, doc);

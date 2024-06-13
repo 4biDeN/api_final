@@ -1,10 +1,10 @@
 const express = require('express');
-
 const app = express();
+
 const port = 3000;
 require('./services/swagger');
 
-app.use(express.json())
+app.use(express.json());
 require('./routes')(app);
 
 app.get('/', (req, res) => {res.send('teste'); });
