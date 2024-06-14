@@ -4,7 +4,7 @@ const express = require('express');
 module.exports = (app) => {
     app.get('/observadores', observadoresController.getAgendaObser
     /**
-        #swagger.tags = ["Observadores"]
+        #swagger.tags = ["Agenda Observadores"]
         #swagger.summary = 'Consulta Lista de Observadores'
         #swagger.description = 'Consulta lista de Observadores, todos cadastrados'
     */
@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     app.post('/observadores', observadoresController.postAgendaObser
     /**
-        #swagger.tags = ["Observadores"]
+        #swagger.tags = ["Agenda Observadores"]
         #swagger.summary = 'Cadastra um novo Observador'
         #swagger.description = 'Cadastra um novo Observador no sistema'
         #swagger.parameters['newObservador'] = {
@@ -43,7 +43,7 @@ module.exports = (app) => {
 
     app.delete('/observadores/:agenda_observador/:agenda_agenda_id', observadoresController.deleteAgendaObser
     /*
-        #swagger.tags = ["Observadores"]
+        #swagger.tags = ["Agenda Observadores"]
         #swagger.summary = 'Deleta um Observador'
         #swagger.description = 'Deleta um Observador baseado nos IDs fornecidos'
         #swagger.parameters['agenda_observador'] = {
@@ -63,7 +63,7 @@ module.exports = (app) => {
 
     app.put('/observadores/:agenda_observador/:agenda_agenda_id', observadoresController.updateAgendaObser
     /*
-        #swagger.tags = ["Observadores"]
+        #swagger.tags = ["Agenda Observadores"]
         #swagger.summary = 'Atualiza um Observador'
         #swagger.description = 'Atualiza as informações de um Observador existente'
         #swagger.parameters['agenda_observador'] = {
@@ -94,7 +94,7 @@ module.exports = (app) => {
 
     app.patch('/observadores/:agenda_observador/:agenda_agenda_id', observadoresController.patchAgendaObser
     /*
-        #swagger.tags = ["Observadores"]
+        #swagger.tags = ["Agenda Observadores"]
         #swagger.summary = 'Atualiza parcialmente um Observador'
         #swagger.description = 'Atualiza parcialmente as informações de um Observador existente'
         #swagger.parameters['agenda_observador'] = {

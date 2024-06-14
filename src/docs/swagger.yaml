@@ -17,149 +17,6 @@
     "application/json"
   ],
   "paths": {
-    "/users": {
-      "post": {
-        "tags": [
-          "Usuários"
-        ],
-        "summary": "Cria um novo Usuário",
-        "description": "Cria um novo usuário no sistema",
-        "parameters": [
-          {
-            "name": "newUser",
-            "in": "body",
-            "description": "Informações do novo Usuário",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_username": {
-                  "type": "string",
-                  "example": "Nome de usuário"
-                },
-                "user_email": {
-                  "type": "string",
-                  "example": "E-mail do usuário"
-                },
-                "user_dept": {
-                  "type": "number",
-                  "example": 3
-                },
-                "user_password": {
-                  "type": "string",
-                  "example": "Senha do usuário"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Criado"
-          },
-          "500": {
-            "description": "Erro Interno do Servidor"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Usuários"
-        ],
-        "summary": "Lista de Usuários",
-        "description": "Retorna a lista de todos os usuários cadastrados",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Erro Interno do Servidor"
-          }
-        }
-      }
-    },
-    "/users/{user_id}": {
-      "get": {
-        "tags": [
-          "Usuários"
-        ],
-        "summary": "Busca Usuário por ID",
-        "description": "Retorna as informações de um usuário específico, com base no ID fornecido",
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "ID do usuário"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Solicitação Inválida"
-          },
-          "404": {
-            "description": "Não Encontrado"
-          },
-          "500": {
-            "description": "Erro Interno do Servidor"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Usuários"
-        ],
-        "summary": "Atualiza a senha de um Usuário",
-        "description": "Atualiza a senha de um usuário existente no sistema",
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "ID do usuário"
-          },
-          {
-            "name": "updatedUser",
-            "in": "body",
-            "description": "Informações atualizadas do Usuário",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_username": {
-                  "type": "string",
-                  "example": "Nome de usuário"
-                },
-                "user_password": {
-                  "type": "string",
-                  "example": "Senha atual do usuário"
-                },
-                "newpass": {
-                  "type": "string",
-                  "example": "Nova senha do usuário"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Criado"
-          },
-          "404": {
-            "description": "Não Encontrado"
-          },
-          "500": {
-            "description": "Erro Interno do Servidor"
-          }
-        }
-      }
-    },
     "/dept": {
       "get": {
         "tags": [
@@ -2211,7 +2068,7 @@
     "/agenda_resp/": {
       "get": {
         "tags": [
-          "Responsáveis"
+          "Agenda Responsáveis"
         ],
         "summary": "Consulta Lista de Responsáveis de Agenda",
         "description": "Consulta lista de Responsáveis de Agenda, todos cadastrados",
@@ -2231,7 +2088,7 @@
     "/agenda_resp": {
       "post": {
         "tags": [
-          "Responsáveis"
+          "Agenda Responsáveis"
         ],
         "summary": "Cadastra um novo Responsável de Agenda",
         "description": "Cadastra um novo Responsável de Agenda no sistema",
@@ -2306,7 +2163,7 @@
     "/agenda_resp/{agenda_responsaveis}/{agenda_agenda_id}": {
       "delete": {
         "tags": [
-          "Responsáveis"
+          "Agenda Responsáveis"
         ],
         "summary": "Deleta um Responsável de Agenda",
         "description": "Deleta um Responsável de Agenda baseado nos IDs fornecidos",
@@ -2340,7 +2197,7 @@
       },
       "put": {
         "tags": [
-          "Responsáveis"
+          "Agenda Responsáveis"
         ],
         "summary": "Atualiza um Responsável de Agenda",
         "description": "Atualiza as informações de um Responsável de Agenda existente",
@@ -2392,7 +2249,7 @@
       },
       "patch": {
         "tags": [
-          "Responsáveis"
+          "Agenda Responsáveis"
         ],
         "summary": "Atualiza parcialmente um Responsável de Agenda",
         "description": "Atualiza parcialmente as informações de um Responsável de Agenda existente",
@@ -2471,7 +2328,7 @@
     "/observadores": {
       "get": {
         "tags": [
-          "Observadores"
+          "Agenda Observadores"
         ],
         "summary": "Consulta Lista de Observadores",
         "description": "Consulta lista de Observadores, todos cadastrados",
@@ -2489,7 +2346,7 @@
       },
       "post": {
         "tags": [
-          "Observadores"
+          "Agenda Observadores"
         ],
         "summary": "Cadastra um novo Observador",
         "description": "Cadastra um novo Observador no sistema",
@@ -2559,7 +2416,7 @@
     "/observadores/{agenda_observador}/{agenda_agenda_id}": {
       "delete": {
         "tags": [
-          "Observadores"
+          "Agenda Observadores"
         ],
         "summary": "Deleta um Observador",
         "description": "Deleta um Observador baseado nos IDs fornecidos",
@@ -2593,7 +2450,7 @@
       },
       "put": {
         "tags": [
-          "Observadores"
+          "Agenda Observadores"
         ],
         "summary": "Atualiza um Observador",
         "description": "Atualiza as informações de um Observador existente",
@@ -2645,7 +2502,7 @@
       },
       "patch": {
         "tags": [
-          "Observadores"
+          "Agenda Observadores"
         ],
         "summary": "Atualiza parcialmente um Observador",
         "description": "Atualiza parcialmente as informações de um Observador existente",
@@ -2986,6 +2843,149 @@
           },
           "500": {
             "description": "Erro ao atualizar comentário"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Cria um novo Usuário",
+        "description": "Cria um novo usuário no sistema",
+        "parameters": [
+          {
+            "name": "newUser",
+            "in": "body",
+            "description": "Informações do novo Usuário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_username": {
+                  "type": "string",
+                  "example": "Nome de usuário"
+                },
+                "user_email": {
+                  "type": "string",
+                  "example": "E-mail do usuário"
+                },
+                "user_dept": {
+                  "type": "number",
+                  "example": 3
+                },
+                "user_password": {
+                  "type": "string",
+                  "example": "Senha do usuário"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Lista de Usuários",
+        "description": "Retorna a lista de todos os usuários cadastrados",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Busca Usuário por ID",
+        "description": "Retorna as informações de um usuário específico, com base no ID fornecido",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Atualiza a senha de um Usuário",
+        "description": "Atualiza a senha de um usuário existente no sistema",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do usuário"
+          },
+          {
+            "name": "updatedUser",
+            "in": "body",
+            "description": "Informações atualizadas do Usuário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_username": {
+                  "type": "string",
+                  "example": "Nome de usuário"
+                },
+                "user_password": {
+                  "type": "string",
+                  "example": "Senha atual do usuário"
+                },
+                "newpass": {
+                  "type": "string",
+                  "example": "Nova senha do usuário"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
           }
         }
       }

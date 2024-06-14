@@ -3,14 +3,14 @@ const agendaRespController = require('../controllers/responsaveis');
 module.exports = (app) => {
     app.get('/agenda_resp/', agendaRespController.getAgendaResp
     /**
-        #swagger.tags = ["Responsáveis"]
+        #swagger.tags = ["Agenda Responsáveis"]
         #swagger.summary = 'Consulta Lista de Responsáveis de Agenda'
         #swagger.description = 'Consulta lista de Responsáveis de Agenda, todos cadastrados'
     */
     );
     app.post('/agenda_resp', agendaRespController.postAgendaResp
     /**
-        #swagger.tags = ["Responsáveis"]
+        #swagger.tags = ["Agenda Responsáveis"]
         #swagger.summary = 'Cadastra um novo Responsável de Agenda'
         #swagger.description = 'Cadastra um novo Responsável de Agenda no sistema'
         #swagger.parameters['newAgendaResp'] = {
@@ -42,7 +42,7 @@ module.exports = (app) => {
     );
     app.delete('/agenda_resp/:agenda_responsaveis/:agenda_agenda_id', agendaRespController.deleteAgendaResp
     /*
-        #swagger.tags = ["Responsáveis"]
+        #swagger.tags = ["Agenda Responsáveis"]
         #swagger.summary = 'Deleta um Responsável de Agenda'
         #swagger.description = 'Deleta um Responsável de Agenda baseado nos IDs fornecidos'
         #swagger.parameters['agenda_responsaveis'] = {
@@ -61,7 +61,7 @@ module.exports = (app) => {
     );
     app.put('/agenda_resp/:agenda_responsaveis/:agenda_agenda_id', agendaRespController.updateAgendaResp
     /*
-        #swagger.tags = ["Responsáveis"]
+        #swagger.tags = ["Agenda Responsáveis"]
         #swagger.summary = 'Atualiza um Responsável de Agenda'
         #swagger.description = 'Atualiza as informações de um Responsável de Agenda existente'
         #swagger.parameters['agenda_responsaveis'] = {
@@ -92,7 +92,7 @@ module.exports = (app) => {
 
     app.patch('/agenda_resp/:agenda_responsaveis/:agenda_agenda_id', agendaRespController.patchAgendaResp
     /*
-        #swagger.tags = ["Responsáveis"]
+        #swagger.tags = ["Agenda Responsáveis"]
         #swagger.summary = 'Atualiza parcialmente um Responsável de Agenda'
         #swagger.description = 'Atualiza parcialmente as informações de um Responsável de Agenda existente'
         #swagger.parameters['agenda_responsaveis'] = {
